@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% for survey in surveys %}
+        <h2>{{ survey.name }}</h2>
+
+        {% for question in survey.questions %}
+            <div>{{ instanceof(question) }} : {{ question.text }}</div>
+            {% if instanceof(question) is same as "App\\Entity\\Question\\MultipleChoiceQuestion" %}
+                {% for choice in question.choices %}
+                    <div style="margin-left: 50px;">{{ choice }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endfor %}
+
+        {% for response in survey.responses %}
+            <h3>{{ response.id }}</h3>
+
+            {% for answer in response.answers %}
+                <div>{{ answer.question.text }} -> {{ instanceof(answer) }} - {{ answer.value }}</div>
+            {% endfor %}
+        {% endfor %}
+    {% endfor %}
+{% endblock %}
